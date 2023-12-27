@@ -1,25 +1,10 @@
 module Neural_Net (epoch_learn, network_predict, Weights, X, Y) where
-import Tools (or_else, get_indices, dot_product, transpose, weights_only, prepend, multiply_each)
-import Activations (Activation, Activation_Prime, tanh_prime, none)
+
+import Activations (tanh_prime, none)
 import Errors (mse, mse_prime)
-
-type Neuron_Weight = [Float]
-type Layer_Weight = [Neuron_Weight]
-type Weights = [Layer_Weight]
-type X = [Float]
-type Y = [Float]
-
-activation :: Activation
-activation = none
-
-activation' :: Activation_Prime
-activation' = none
-
-error_prime :: Y -> Y -> [Float]
-error_prime = mse_prime
-
-learning_rate :: Float
-learning_rate = 0.01
+import Params (activation, activation', error_prime, learning_rate)
+import Tools (or_else, get_indices, dot_product, transpose, weights_only, prepend, multiply_each)
+import Types (Neuron_Weight, Layer_Weight, Weights, X, Y, Activation, Activation_Prime)
 
 epoch_learn :: Weights -> [X] -> [Y] -> Weights
 epoch_learn weights [] [] = weights

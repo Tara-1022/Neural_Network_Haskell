@@ -1,8 +1,7 @@
 module Errors (mse, mse_prime) where
 
 import Tools (pow_2)
-
-type Y = [Float]
+import Types (Y)
 
 mse :: Y -> Y -> Float
 mse outputs tgt = (sum $ map pow_2 $ zipWith (-) outputs tgt) / (fromIntegral (length outputs))

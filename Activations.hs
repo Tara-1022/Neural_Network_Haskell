@@ -1,9 +1,7 @@
-module Activations (Activation, Activation_Prime, relu, relu_prime, sigmoid, step, tanh_prime, none) where
+module Activations (relu, relu_prime, sigmoid, step, tanh_prime, none) where
 
 import Tools (or_else)
-
-type Activation         = Float -> Float
-type Activation_Prime   = Float -> Float
+import Types (Activation, Activation_Prime)
 
 relu :: Activation
 relu x  | x > 0 = x
