@@ -10,26 +10,26 @@ type X = [Float]
 type Y = [Float]
 
 activation :: Activation
-activation = tanh
+activation = none
 
 activation' :: Activation_Prime
-activation' = tanh_prime
+activation' = none
 
 error_prime :: Y -> Y -> [Float]
 error_prime = mse_prime
 
 learning_rate :: Float
-learning_rate = 0.1
+learning_rate = 0.01
 
 epoch_learn :: Weights -> [X] -> [Y] -> Weights
 epoch_learn weights [] [] = weights
 epoch_learn weights (x: xs) (y: ys) = epoch_learn (updated_weights weights x y) xs ys
 
 updated_weights :: Weights -> X -> Y -> Weights
-updated_weights weights x y_test = reverse [updated_layer_weight (layerwise_inputs !! i) ((reverse weights) !! i) (partial_gradients !! i) | i <- get_indices weights]
+updated_weights weights x y_test = reverse [updated_layer_weight (layerwise_inputs !! i) ((reverse weights) !! i) ((reverse partial_gradients) !! i) | i <- get_indices weights]
                             where 
                                 _:partial_gradients = network_backward weights layerwise_inputs [output_gradient]
-                                output_gradient = mse_prime y_pred y_test
+                                output_gradient = error_prime y_test y_pred
                                 y_pred:layerwise_inputs = network_forward weights [x]
 
 updated_layer_weight :: X -> Layer_Weight -> [Float] -> Layer_Weight
@@ -39,7 +39,7 @@ updated_layer_weight x layer_weight output_gradient = zipWith (zipWith (-)) laye
                                                             bias_gradient = output_gradient
                                                             updations = prepend bias_gradient weights_gradient
 
--- return network's partial gradients, output layer first
+-- return network's partial gradients, output layer last
 network_backward :: Weights -> [X] -> [[Float]] -> [[Float]]
 network_backward [] xs gradients = gradients
 network_backward weights (x:xs) gradients = network_backward (init weights) xs (prev_gradient:gradients)

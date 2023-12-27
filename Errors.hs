@@ -8,4 +8,4 @@ mse :: Y -> Y -> Float
 mse outputs tgt = (sum $ map pow_2 $ zipWith (-) outputs tgt) / (fromIntegral (length outputs))
 
 mse_prime :: Y -> Y -> [Float]
-mse_prime outputs tgt = zipWith (\x y -> (2 * (y - x) / (fromIntegral (length outputs)))) outputs tgt
+mse_prime y_test y_pred = zipWith (\x y -> (2 * (x - y) / (fromIntegral (length y_test)))) y_pred y_test
