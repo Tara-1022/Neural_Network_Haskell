@@ -3,12 +3,12 @@ module Neural_Net (epoch_learn, network_predict, Weights, X, Y) where
 import Activations (tanh_prime, none)
 import Errors (mse, mse_prime)
 import Params (activation, activation', error_prime, learning_rate)
-import Tools (or_else, get_indices, dot_product, transpose, weights_only, prepend, multiply_each)
+import Tools (clip, or_else, get_indices, dot_product, transpose, weights_only, prepend, multiply_each)
 import Types (Neuron_Weight, Layer_Weight, Weights, X, Y, Activation, Activation_Prime)
 
 epoch_learn :: Weights -> [X] -> [Y] -> Weights
 epoch_learn weights [] [] = weights
-epoch_learn weights (x: xs) (y: ys) = epoch_learn (updated_weights weights x y) xs ys
+epoch_learn weights (x: xs) (y: ys) = epoch_learn (map (map (map clip)) (updated_weights weights x y)) xs ys
 
 updated_weights :: Weights -> X -> Y -> Weights
 updated_weights weights x y_test = reverse [updated_layer_weight (layerwise_inputs !! i) ((reverse weights) !! i) ((reverse partial_gradients) !! i) | i <- get_indices weights]
