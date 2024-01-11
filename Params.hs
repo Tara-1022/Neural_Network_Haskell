@@ -14,7 +14,7 @@ error_prime :: Y -> Y -> [Float]
 error_prime = mse_prime
 
 learning_rate :: Float
-learning_rate = 0.1
+learning_rate = 0.01
 
 epochs :: Int
 epochs = 500

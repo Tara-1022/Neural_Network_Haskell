@@ -1,4 +1,6 @@
-module Tools (clip, or_else, get_indices, dot_product, transpose, weights_only, prepend, pow_2, multiply_each) where
+module Tools (bias_only, clip, or_else, get_indices, dot_product, transpose, weights_only, prepend, pow_2, multiply_each) where
+        
+import Types (Neuron_Weight, Layer_Weight, Weights, X, Y, Activation, Activation_Prime)
 
 or_else :: Bool
 or_else = True
@@ -13,8 +15,11 @@ transpose :: [[Float]] -> [[Float]]
 transpose ([]:_) = []
 transpose x = (map head x) : transpose (map tail x)
 
-weights_only :: [[Float]] -> [[Float]]
+weights_only :: Layer_Weight -> [[Float]]
 weights_only weights = [ws | w:ws <- weights]
+
+bias_only :: Layer_Weight -> [[Float]]
+bias_only weights = [ [b] | b:ws <- weights]
 
 prepend :: [Float] -> [[Float]] -> [[Float]]
 prepend x y = zipWith (\a b -> a:b) x y
