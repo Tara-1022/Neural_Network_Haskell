@@ -5,16 +5,13 @@ import Errors (mse, mse_prime)
 import Types (X, Y, Activation, Activation_Prime)
 
 activation :: Activation
-activation = tanh
+activation = relu
 
 activation' :: Activation_Prime
-activation' = tanh_prime
+activation' = relu_prime
 
 error_prime :: Y -> Y -> [Float]
 error_prime = mse_prime
 
 learning_rate :: Float
-learning_rate = 0.01
-
-epochs :: Int
-epochs = 500
+learning_rate = 0.001

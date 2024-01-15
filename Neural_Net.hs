@@ -23,7 +23,7 @@ network_backward weights (x:xs) past_gradient new_weights = network_backward (in
                                         where
                                             next_gradient = dense_back x w gradient
                                             w_new = updated_layer_weight x w gradient
-                                            gradient = (activation_back (layer_output w x) past_gradient)
+                                            gradient = (activation_back (dense_forward w x) past_gradient)
                                             w = last weights
 
 updated_layer_weight :: X -> Layer_Weight -> [Float] -> Layer_Weight
@@ -54,3 +54,8 @@ layer_output layer_weight x = [neuron_output neuron_weight x | neuron_weight <- 
 
 neuron_output :: Neuron_Weight -> X -> Float
 neuron_output (bias:ws) xs  = activation $ (dot_product ws xs) + bias
+
+dense_forward :: Layer_Weight -> X -> Y
+dense_forward layer_weight x = [single_output neuron_weight x | neuron_weight <- layer_weight]
+                        where
+                            single_output (bias:ws) xs = (dot_product ws xs + bias)
