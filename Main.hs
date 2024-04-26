@@ -1,5 +1,4 @@
 import Neural_Net (epoch_learn, network_predict)
-import Params (epochs)
 import Types (Weights, X, Y)
 
 train_model :: Weights -> [X] -> [Y] -> Float -> Weights

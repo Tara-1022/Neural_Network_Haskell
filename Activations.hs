@@ -1,7 +1,14 @@
-module Activations (relu, relu_prime, sigmoid, step, tanh_prime, none) where
+module Activations (relu, relu_prime, sigmoid, step, tanh_prime, none, leaky_relu, leaky_relu_prime) where
 
 import Tools (or_else)
 import Types (Activation, Activation_Prime)
+
+leaky_relu :: Activation
+leaky_relu x = max x $ 0.01 * x
+
+leaky_relu_prime :: Activation_Prime
+leaky_relu_prime x | x < 0      = 0.01
+                   | or_else    = 1
 
 relu :: Activation
 relu x  | x > 0 = x

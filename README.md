@@ -23,6 +23,7 @@ To train a model,
 Predicting values is straightforward; `predict_values` uses the network's learnt weights to predict outputs for given data points.
 
 ### Sample execution:
+#### Multiple of 5
 ```
 > ghci Main.hs
 ghci> w = [ [[0.3, 0.4], [0.9, 0.6], [5, 0.3], [2, 1], [0.001, 0.5]], [[0.6, 0.5, 0.6, 0.3, 0.8, 0.9]]] -- a 1x5x1 network
@@ -46,4 +47,30 @@ error_prime = mse_prime
 
 learning_rate :: Float
 learning_rate = 0.001
+```
+
+#### XNOR
+```
+> ghci Main.hs
+ghci> xs = [[0, 0], [0, 1], [1, 0], [1, 1]]
+ghci> ys = [[1], [0], [0], [1]]
+ghci>  w = [[[0.04, 0.5, 0.08], [0.9, 0.08, 0.7], [0.07, 0.9, 0.6]], [[0.7, 0.05, 0.06, 0.08]]] -- a 2-3-1 network
+ghci> w2 = train_model w xs ys 500                      
+ghci> predict_values w2 xs                              
+[[0.9851537],[1.060858e-3],[6.017508e-3],[0.9790084]]
+```
+
+for [`Params.hs`](./Params.hs):
+```
+activation :: Activation
+activation = tanh
+
+activation' :: Activation_Prime
+activation' = tanh_prime  
+
+error_prime :: Y -> Y -> [Float]
+error_prime = mse_prime  
+
+learning_rate :: Float
+learning_rate = 0.1
 ```
